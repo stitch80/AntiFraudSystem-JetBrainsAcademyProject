@@ -1,7 +1,5 @@
 package antifraud.enums;
 
-import org.springframework.stereotype.Component;
-
 public enum Regions {
     EAP,
     ECA,
@@ -10,10 +8,4 @@ public enum Regions {
     MENA,
     SA,
     SSA
-
-//    private String value;
-//
-//    Regions(String value) {
-//        this.value = value;
-//    }
 }

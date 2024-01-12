@@ -1,6 +1,5 @@
 package antifraud.enums;
 
-import antifraud.enums.ValueOfEnum;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

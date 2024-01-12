@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
-//    @Query(value = "SELECT count(distinct(ip)) FROM TRANSACTION where number = :number and date >= timestampadd(hour, -1, CURRENT_TIMESTAMP);", nativeQuery = true)
     @Query(value = "SELECT count(distinct(ip)) FROM TRANSACTION where number = :number and date between :start and :end ;", nativeQuery = true)
     int countIpAddressesInLastHour(
             @Param("number") String number,

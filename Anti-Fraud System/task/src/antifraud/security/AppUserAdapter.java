@@ -17,8 +17,6 @@ public class AppUserAdapter implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return appUser.getAuthorities();
-//        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
         return Arrays.asList(appUser.getRole());
     }
 

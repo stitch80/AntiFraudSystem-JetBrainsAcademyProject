@@ -37,29 +37,28 @@ public class SecurityConfig {
     ) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/actuator/shutdown").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/auth/user").permitAll()
-                                .requestMatchers(HttpMethod.DELETE, "/api/auth/user/*").hasRole("ADMINISTRATOR")
-                                .requestMatchers(HttpMethod.GET, "/api/auth/list").hasAnyRole("ADMINISTRATOR", "SUPPORT")
-                                .requestMatchers(HttpMethod.PUT, "/api/auth/access", "/api/auth/role").hasRole("ADMINISTRATOR")
-                                .requestMatchers(HttpMethod.POST, "/api/antifraud/transaction").hasRole("MERCHANT")
-                                .requestMatchers(
-                                        HttpMethod.POST,
-                                        "/api/antifraud/suspicious-ip",
-                                        "/api/antifraud/stolencard").hasRole("SUPPORT")
-                                .requestMatchers(
-                                        HttpMethod.DELETE,
-                                        "/api/antifraud/suspicious-ip/*",
-                                        "/api/antifraud/stolencard/*").hasRole("SUPPORT")
-                                .requestMatchers(
-                                        HttpMethod.GET,
-                                        "/api/antifraud/suspicious-ip",
-                                        "/api/antifraud/stolencard").hasRole("SUPPORT")
-                                .requestMatchers(HttpMethod.GET, "/api/antifraud/history").hasRole("SUPPORT")
-                                .requestMatchers(HttpMethod.GET, "/api/antifraud/history/*").hasRole("SUPPORT")
-                                .requestMatchers(HttpMethod.PUT, "/api/antifraud/transaction").hasRole("SUPPORT")
-                                .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
-//                        .requestMatchers("/error").anonymous()
+                        .requestMatchers("/actuator/shutdown").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/user").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/api/auth/user/*").hasRole("ADMINISTRATOR")
+                        .requestMatchers(HttpMethod.GET, "/api/auth/list").hasAnyRole("ADMINISTRATOR", "SUPPORT")
+                        .requestMatchers(HttpMethod.PUT, "/api/auth/access", "/api/auth/role").hasRole("ADMINISTRATOR")
+                        .requestMatchers(HttpMethod.POST, "/api/antifraud/transaction").hasRole("MERCHANT")
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/antifraud/suspicious-ip",
+                                "/api/antifraud/stolencard").hasRole("SUPPORT")
+                        .requestMatchers(
+                                HttpMethod.DELETE,
+                                "/api/antifraud/suspicious-ip/*",
+                                "/api/antifraud/stolencard/*").hasRole("SUPPORT")
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/antifraud/suspicious-ip",
+                                "/api/antifraud/stolencard").hasRole("SUPPORT")
+                        .requestMatchers(HttpMethod.GET, "/api/antifraud/history").hasRole("SUPPORT")
+                        .requestMatchers(HttpMethod.GET, "/api/antifraud/history/*").hasRole("SUPPORT")
+                        .requestMatchers(HttpMethod.PUT, "/api/antifraud/transaction").hasRole("SUPPORT")
+                        .requestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")).permitAll()
                 )
                 .httpBasic(Customizer.withDefaults())
                 .csrf(CsrfConfigurer::disable)                           // For modifying requests via Postman
@@ -68,15 +67,9 @@ public class SecurityConfig {
                         .authenticationEntryPoint(restAuthenticationEntryPoint) // Handles auth error
                 )
                 .headers(headers -> headers.frameOptions().disable())           // for Postman, the H2 console
-//                .authorizeHttpRequests(requests -> requests                     // manage access
-//                                .requestMatchers(HttpMethod.POST, "/api/auth/user").permitAll()
-//                                .requestMatchers("/actuator/shutdown").permitAll()      // needs to run test
-//                         other matchers
-//                )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // no session
                 )
-                // other configurations
                 .build();
     }
 

@@ -1,14 +1,14 @@
 package antifraud.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Entity
-public class AppUser{
+public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class AppUser{
     @NotNull
     private String password;
 
-//    @OneToOne
+    //    @OneToOne
 //    @JoinColumn(name = "user_id", nullable = false)
     private SimpleGrantedAuthority role;
 
@@ -66,12 +66,12 @@ public class AppUser{
         return role;
     }
 
-    public String getRoleName() {
-        return role.toString().substring(5);
-    }
-
     public void setRole(SimpleGrantedAuthority role) {
         this.role = role;
+    }
+
+    public String getRoleName() {
+        return role.toString().substring(5);
     }
 
     public boolean isNonLocked() {
