@@ -1,0 +1,57 @@
+# course config files
+*.yaml
+
+# gradle
+.gradle/
+build
+
+
+# idea config
+.idea
+
+# old stages
+/Anti-Fraud System/*
+!/Anti-Fraud System/task/
+/Anti-Fraud System/task/*
+!/Anti-Fraud System/task/src
+!/Anti-Fraud System/task/build.gradle
+
+# Project exclude paths
+/Topics/Data Transfer Object in Spring/DTO advantages/out/
+/Topics/Data Transfer Object in Spring/DTO advantages/out/production/classes/
+/Topics/Data Transfer Object in Spring/DTO definition/out/
+/Topics/Data Transfer Object in Spring/DTO definition/out/production/classes/
+/Topics/Data Transfer Object in Spring/DTO implementation with a Java record/out/
+/Topics/Data Transfer Object in Spring/DTO implementation with a Java record/out/production/classes/
+/Topics/Data Transfer Object in Spring/The purposes of ModelMapper/out/
+/Topics/Data Transfer Object in Spring/The purposes of ModelMapper/out/production/classes/
+/Topics/Data Transfer Object in Spring/Theory/out/
+/Topics/Data Transfer Object in Spring/Theory/out/production/classes/
+/Topics/Inner classes/Christmas tree/out/
+/Topics/Inner classes/Christmas tree/out/production/classes/
+/Topics/Thread management/Join/out/
+/Topics/Thread management/Join/out/production/classes/
+/Topics/Thread management/Ordering the execution of threads/out/
+/Topics/Thread management/Ordering the execution of threads/out/production/classes/
+/Topics/Thread management/The order of lines/out/
+/Topics/Thread management/The order of lines/out/production/classes/
+/Topics/Thread management/Theory/out/
+/Topics/Thread management/Theory/out/production/classes/
+/Topics/Thread management/VeganPizza/out/
+/Topics/Thread management/VeganPizza/out/production/classes/
+/Topics/Thread synchronization/Countdown counter/out/
+/Topics/Thread synchronization/Countdown counter/out/production/classes/
+/Topics/Thread synchronization/Multithreaded counter/out/
+/Topics/Thread synchronization/Multithreaded counter/out/production/classes/
+/Topics/Thread synchronization/Theory/out/
+/Topics/Thread synchronization/Theory/out/production/classes/
+/Topics/Thread synchronization/Two methods, two statements/out/
+/Topics/Thread synchronization/Two methods, two statements/out/production/classes/
+/Topics/Thread synchronization/What is wrong/out/
+/Topics/Thread synchronization/What is wrong/out/production/classes/
+/Topics/Threads as objects/Counting threads/out/
+/Topics/Threads as objects/Counting threads/out/production/classes/
+/Topics/Threads as objects/Getting current thread info/out/
+/Topics/Threads as objects/Getting current thread info/out/production/classes/
+/Topics/Threads as objects/Theory/out/
+/Topics/Threads as objects/Theory/out/production/classes/
