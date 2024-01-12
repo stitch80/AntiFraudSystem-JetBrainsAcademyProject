@@ -17,7 +17,6 @@ import antifraud.rest.exceptions.ObjectConflictException;
 import antifraud.rest.exceptions.ObjectNotFoundException;
 import antifraud.rest.exceptions.ObjectNotValidException;
 import antifraud.rest.exceptions.UnprocessableEntityException;
-import antifraud.tools.CardNumberChecker;
 import antifraud.tools.TransactionChecker;
 import antifraud.tools.TransactionLimitChanger;
 import jakarta.validation.Valid;
@@ -32,11 +31,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
-//import org.apache.commons.validator.routines.CreditCardValidator;
+import org.apache.commons.validator.routines.CreditCardValidator;
 
-@org.springframework.web.bind.annotation.RestController
+@RestController
 @RequestMapping("/api")
-public class RestController {
+public class AntiFraudRestController {
 
     private final PasswordEncoder passwordEncoder;
     private final AppUserRepository userRepository;
@@ -47,11 +46,10 @@ public class RestController {
 
     private final TransactionLimitChanger transactionLimitChanger;
 
-//    private final CreditCardValidator creditCardValidator;
+    private final CreditCardValidator creditCardValidator;
 
 
-
-    public RestController(
+    public AntiFraudRestController(
             PasswordEncoder passwordEncoder,
             AppUserRepository userRepository,
             IPAddressRepository ipAddressRepository,
@@ -66,7 +64,7 @@ public class RestController {
         this.transactionRepository = transactionRepository;
         this.transactionChecker = transactionChecker;
         this.transactionLimitChanger = transactionLimitChanger;
-//        this.creditCardValidator = new CreditCardValidator();
+        this.creditCardValidator = new CreditCardValidator();
     }
 
 
@@ -83,15 +81,14 @@ public class RestController {
             throw new ObjectConflictException();
         }
 
-//        AppUser newUser = new AppUser();
-//        newUser.setName(appUser.name());
         appUser.setUsername(appUser.getUsername().toLowerCase());
         appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
         if (userRepository.count() == 0) {
             appUser.setRole(new SimpleGrantedAuthority("ROLE_ADMINISTRATOR"));
             appUser.setNonLocked(true);
         } else {
-            appUser.setRole(new SimpleGrantedAuthority("ROLE_MERCHANT"));        }
+            appUser.setRole(new SimpleGrantedAuthority("ROLE_MERCHANT"));
+        }
 
         AppUser savedUser = userRepository.save(appUser);
         return new AppUserResponse(
@@ -130,7 +127,7 @@ public class RestController {
             @RequestBody AppUserRole userRole
     ) {
         if (!userRole.role().equals("SUPPORT") &&
-        !userRole.role().equals("MERCHANT")) {
+                !userRole.role().equals("MERCHANT")) {
             throw new ObjectNotValidException();
         }
         AppUser user = userRepository.findByUsername(userRole.username())
@@ -154,7 +151,7 @@ public class RestController {
     ) {
         AppUser user = userRepository.findByUsername(operation.username())
                 .orElseThrow(ObjectNotFoundException::new);
-        if(operation.operation().equals("LOCK")) {
+        if (operation.operation().equals("LOCK")) {
             user.setNonLocked(false);
         } else if (operation.operation().equals("UNLOCK")) {
             user.setNonLocked(true);
@@ -182,7 +179,7 @@ public class RestController {
     @PostMapping("/antifraud/suspicious-ip")
     public IP saveIPAddress(
             @Valid @RequestBody IP ip
-            ) {
+    ) {
         return ipAddressRepository.save(ip);
     }
 
@@ -213,13 +210,10 @@ public class RestController {
     @DeleteMapping("/antifraud/stolencard/{number}")
     public ObjectDeleteResponse deleteStolenCard(@PathVariable String number) {
 
-        if (!CardNumberChecker.isValid(number)) {
+        if (!creditCardValidator.isValid(number)) {
             throw new ObjectNotValidException();
         }
 
-//        if (!creditCardValidator.isValid(number)) {
-//            throw new ObjectNotValidException();
-//        }
         if (stolenCardRepository.findByNumber(number).isEmpty()) {
             throw new ObjectNotFoundException();
         }
@@ -273,7 +267,6 @@ public class RestController {
             throw new UnprocessableEntityException();
         }
 
-
         String feedbackStatusAllowed = TransactionAndFeedbackStatuses.ALLOWED.toString();
         String feedbackStatusManualProcessing = TransactionAndFeedbackStatuses.MANUAL_PROCESSING.toString();
         String feedbackStatusProhibited = TransactionAndFeedbackStatuses.PROHIBITED.toString();
@@ -305,13 +298,9 @@ public class RestController {
 
     @GetMapping("/antifraud/history/{number}")
     private Iterable<Transaction> getTransactionsByCard(@PathVariable String number) {
-        if (!CardNumberChecker.isValid(number)) {
+        if (!creditCardValidator.isValid(number)) {
             throw new ObjectNotValidException();
         }
-
-//        if (!creditCardValidator.isValid(number)) {
-//            throw new ObjectNotValidException();
-//        }
 
         Iterable<Transaction> transactions = transactionRepository.findAllByNumber(number);
         long transactionsListSize = StreamSupport.stream(transactions.spliterator(), false).count();
@@ -323,7 +312,6 @@ public class RestController {
             throw new ObjectNotFoundException();
         }
     }
-
 
     //endregion
 
