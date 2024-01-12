@@ -105,7 +105,8 @@ public class TransactionChecker {
 
     private CardLimit getCardLimit(Transaction transaction) {
         Optional<CardLimit> cardLimitOptional = cardLimitRepository.findByCardNumber(transaction.getNumber());
-        CardLimit cardLimit = new CardLimit();
+        new CardLimit();
+        CardLimit cardLimit;
         if (cardLimitOptional.isEmpty()) {
             cardLimit = new CardLimit(transaction.getNumber(), CardLimit.ALLOW_LIMIT, CardLimit.MANUAL_LIMIT);
             cardLimitRepository.save(cardLimit);
